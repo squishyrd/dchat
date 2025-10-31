@@ -8,18 +8,13 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <ctime>
+#include "../include/decoder.h"
 
 #define PORT 3412 // make this configurable
 #define BUFFERSIZE 2048
 
 using std::cout;
 using std::cerr;
-
-class User {
-public:
-    time_t lastJoined;
-
-};
 
 int main(int argc, char* argv[]) {
     //if (argc < 2) return 1;
@@ -64,8 +59,13 @@ int main(int argc, char* argv[]) {
         }
         size_t bytesRead = read(clientSock, buffer, BUFFERSIZE - 1);
         buffer[bytesRead] = '\0'; // null terminate
+        Message mg;
+        Decoder::formatMessage(buffer, &mg);
         cout << "Contents: " << buffer << '\n';
-
+        cout << "mg.fromuser: " << mg.fromuser << '\n';
+        cout << "mg.touser: " << mg.touser << '\n';
+        cout << "mg.text: " << mg.text << '\n';
+        cout << "mg.time: " << mg.time << '\n';
     }
 
 
