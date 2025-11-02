@@ -19,13 +19,7 @@ public:
     time_t time;
 };
 
-class User {
-public:
-    time_t lastJoined;
-    std::string uname;
-};
-
 class Decoder {
 public:
-    static void formatMessage(std::string message, Message* msg);
+    static void extractUserInfo(std::string message, Message* msg);
 };

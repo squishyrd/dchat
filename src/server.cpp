@@ -8,16 +8,22 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <ctime>
+#include <bits/stl_uninitialized.h>
+
 #include "../include/decoder.h"
+#include "../include/usermanager.h"
 
 #define PORT 3412 // make this configurable
 #define BUFFERSIZE 2048
+
+// TODO: Recrate a better version ASAP; this is the worst code i've writeote
 
 using std::cout;
 using std::cerr;
 
 int main(int argc, char* argv[]) {
     //if (argc < 2) return 1;
+    UserManager::ufileCheck();
 
     int srvSock = socket(AF_INET, SOCK_STREAM, 0); // trying to create a socket
     int addrlen = 0;
@@ -60,12 +66,14 @@ int main(int argc, char* argv[]) {
         size_t bytesRead = read(clientSock, buffer, BUFFERSIZE - 1);
         buffer[bytesRead] = '\0'; // null terminate
         Message mg;
-        Decoder::formatMessage(buffer, &mg);
+        Decoder::extractUserInfo(buffer, &mg);
         cout << "Contents: " << buffer << '\n';
         cout << "mg.fromuser: " << mg.fromuser << '\n';
         cout << "mg.touser: " << mg.touser << '\n';
         cout << "mg.text: " << mg.text << '\n';
-        cout << "mg.time: " << mg.time << '\n';
+        cout << "mg.time: " << mg.time << '\n'; // TODO: temp, remove
+        UserManager::checkUserExists(mg.fromuser);
+        UserManager::checkUserExists(mg.touser);
     }
 
 

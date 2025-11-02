@@ -7,7 +7,7 @@
 /// extracts the userdata from the recived text
 /// @param message the raw text
 /// @param msg the extracted userdata
-void Decoder::formatMessage(std::string message, Message* msg) {
+void Decoder::extractUserInfo(std::string message, Message* msg) {
 
     /*
      * let's assume that the message is like this: (XML)

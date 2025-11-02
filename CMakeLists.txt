@@ -7,6 +7,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O1 -march=native -Wall -Wextra")
 add_executable(dchat
         src/server.cpp
         src/decoder.cpp
-        include/decoder.h)
+        include/decoder.h
+        src/usermanager.cpp
+        include/usermanager.h
+)
 
 
